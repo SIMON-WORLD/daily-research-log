@@ -1,8 +1,8 @@
 # Daily Research Log
 
-A transparent, privacy-friendly, auditable, and low-interference daily continuity log for researchers and independent developers.
-
 [简体中文](#简体中文) | [English](#english)
+
+一个透明、隐私友好、可审计、低干扰的 GitHub Actions 每日连续性记录模板，面向研究者和独立开发者。
 
 ## 简体中文
 
