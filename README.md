@@ -31,13 +31,13 @@
 - 不适合替代真正的项目提交、Issue、PR 或 release。
 - 不适合把敏感笔记、日记、密码、token、API key 写进日志。
 
-默认日志只包含日期、时间和一条固定说明。
+默认日志只包含日期、时间和一条固定说明。它是透明的连续性记录，不代表当天一定完成了实质性代码开发。
 
 ## 工作原理
 
 - GitHub Actions 在 GitHub 云端运行，不依赖你的电脑开机。
-- 每天北京时间 09:17 自动检查一次。
-- 每天北京时间 20:37 再补偿检查一次。
+- 每天北京时间 00:05 自动检查一次。
+- 每天北京时间 12:05 再补偿检查一次。
 - 脚本检查 `activity/daily-log.csv` 是否已有当天记录。
 - 如果没有，就追加一行 check-in。
 - 如果已经有，就直接跳过。
@@ -128,7 +128,7 @@ This template keeps the daily continuity record in a dedicated log repository in
 ### How It Works
 
 - GitHub Actions runs in the cloud.
-- The workflow checks in at 09:17 and 20:37 in the `Asia/Shanghai` timezone.
+- The workflow checks in at 00:05 and 12:05 in the `Asia/Shanghai` timezone.
 - The script checks whether today's date already exists in `activity/daily-log.csv`.
 - If today's row is missing, it appends one check-in row.
 - If the row already exists, it skips.
@@ -151,8 +151,16 @@ After setup, open the `Actions` tab and manually run `Daily Research Check-in` o
 
 ### Privacy
 
-This repository does not store GitHub tokens, passwords, cookies, or API keys. The public log contains only date, timestamp, and a short note.
+This repository does not store GitHub tokens, passwords, cookies, or API keys. The public log contains only date, timestamp, and a short note. It is a transparent continuity record, not a claim that substantive software development happened that day.
 
 ### License
 
 MIT
+
+### 运行提示
+
+定时任务在 GitHub 云端运行，不需要每天手动启动。GitHub Actions 可能因队列负载延迟几分钟，因此 00:05 和 12:05 是目标时间，不是精确保证时间。
+
+### Runtime note
+
+The scheduled workflow runs in GitHub's cloud; you do not need to start it manually every day. GitHub Actions may be delayed by queue load, so 00:05 and 12:05 are target times rather than exact guarantees.
