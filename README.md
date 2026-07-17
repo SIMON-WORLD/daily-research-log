@@ -1,166 +1,177 @@
 # Daily Research Log
 
-简体中文 | [English](#english)
+[简体中文](#简体中文) | [English](#english)
 
-一个透明、轻量的 GitHub Actions 每日 check-in 模板。它会每天自动更新一条日志，让你在不方便打开电脑或没有正式项目提交时，也能保留一条清楚可审计的 GitHub 活动记录。
+## 简体中文
 
-这不是伪装代码贡献的工具。它只做一件事：在专门仓库里记录一次每日连续性 check-in，避免把无关提交塞进真正的项目仓库。
+一个透明、轻量的 GitHub Actions 每日 check-in 模板。它每天在专用仓库中记录一条可审计的连续性记录，不依赖你的电脑开机。
 
-## 它解决什么痛点
+这不是伪装代码生成器，也不替代真实的软件开发。正式项目继续保留真实的 Issue、Pull Request、测试和发布记录；本仓库只保存每日连续性 check-in。
 
-很多人的 GitHub 贡献图并不完全反映真实状态：
+### 它解决什么问题
 
-- 有些工作发生在本地、论文、笔记、实验、Notion、Overleaf、Stata、数据整理或私有环境里。
-- 有些天人在路上、开会、出差、考试、陪家人，无法坐在电脑前 commit。
-- 有些项目不适合为了点亮贡献图而制造无意义提交。
-- 有些正式仓库有分支保护、PR 流程或协作规范，不应该被每日打卡污染历史。
+- 研究、写作、实验、数据整理和本地工作不一定每天形成 GitHub commit。
+- 出差、开会或暂时不在电脑旁时，无法手动提交。
+- 不应为了点亮贡献图而污染正式项目仓库。
+- 独立日志仓库可以把连续性记录和正式开发分开。
 
-这个模板把“每日连续性记录”和“正式项目开发”分开：正式工作继续留在正式仓库；每日 check-in 只进入这个独立日志仓库。
+### 适合谁
 
-## 适合谁
+- 学生、研究者和博士生；
+- 独立开发者；
+- Stata、R、Python 和数据分析用户；
+- 技术写作者和内容创作者；
+- 使用多台电脑、不希望依赖本地定时任务的人。
 
-- 学生、研究者、博士生：希望记录持续学习、论文阅读、实验推进或研究日常。
-- 独立开发者：希望保持 GitHub profile 的连续活跃，但不想污染真实项目。
-- 数据分析、Stata、R、Python 用户：很多工作不一定每天都会形成 GitHub commit。
-- 内容创作者 / 技术写作者：日常工作可能发生在文档、脚本、笔记和发布平台之间。
-- 使用多台电脑的人：不想依赖某一台电脑开机执行定时任务。
+### 不适合什么
 
-## 不适合什么
+- 不适合声称每天都有实质性代码开发；
+- 不适合替代真实项目提交、Issue、Pull Request 或 release；
+- 不适合写入密码、Token、API key、私人笔记或研究数据。
 
-- 不适合伪装成每天都有实质性代码开发。
-- 不适合替代真正的项目提交、Issue、PR 或 release。
-- 不适合把敏感笔记、日记、密码、token、API key 写进日志。
+### 工作原理
 
-默认日志只包含日期、时间和一条固定说明。它是透明的连续性记录，不代表当天一定完成了实质性代码开发。
+- GitHub Actions 在云端运行，不需要你的电脑开机。
+- 工作流按北京时间每天 00:05 和 12:05 检查。
+- 脚本检查当天是否已经存在记录。
+- 如果没有，就追加一行并提交到 main。
+- 如果已经存在，就跳过，不会重复提交。
+- GitHub Actions 可能因队列负载延迟几分钟，因此这两个时间是目标时间，不是精确保证时间。
+- 每天最多产生一次真实文件变更和一次 commit。
 
-## 工作原理
+### 使用模板
 
-- GitHub Actions 在 GitHub 云端运行，不依赖你的电脑开机。
-- 每天北京时间 00:05 自动检查一次。
-- 每天北京时间 12:05 再补偿检查一次。
-- 脚本检查 `activity/daily-log.csv` 是否已有当天记录。
-- 如果没有，就追加一行 check-in。
-- 如果已经有，就直接跳过。
-- workflow 使用你配置的 GitHub noreply 邮箱提交到 `main`。
+推荐点击仓库中的 **Use this template**，创建一个独立仓库，不要直接 fork。
 
-每天最多产生一次真实文件变更和一次 commit。
+创建后进入：
 
-## 使用这个模板
-
-推荐使用 `Use this template` 创建你自己的独立仓库，而不是 fork。GitHub contributions 通常要求 commit 进入非 fork 仓库的默认分支，模板仓库更适合这个用途。
-
-创建新仓库后，进入：
-
-```text
+~~~text
 Settings -> Secrets and variables -> Actions -> Variables
-```
+~~~
 
-添加两个仓库变量：
+添加：
 
 | 名称 | 示例 |
 | --- | --- |
-| `GIT_AUTHOR_NAME` | `your-github-username` |
-| `GIT_AUTHOR_EMAIL` | `12345678+your-github-username@users.noreply.github.com` |
+| \`GIT_AUTHOR_NAME\` | \`your-github-username\` |
+| \`GIT_AUTHOR_EMAIL\` | \`12345678+your-github-username@users.noreply.github.com\` |
 
-你的 GitHub noreply 邮箱可以在这里找到：
+邮箱必须使用你自己 GitHub 账户已经关联的 noreply 邮箱：
 
-```text
+~~~text
 GitHub -> Settings -> Emails
-```
+~~~
 
-设置完成后，打开 `Actions` 页面，手动运行一次 `Daily Research Check-in`，确认 workflow 能正常执行。
+然后：
 
-## 隐私与安全
+1. 打开 Actions；
+2. 手动运行一次 Daily Research Check-in 进行测试；
+3. 确认仓库的 Actions 具有 Read and write permissions；
+4. 之后无需每天手动运行，定时任务会在云端执行。
 
-仓库不会保存 GitHub token、密码、cookie 或 API key。
+### 隐私与安全
 
-workflow 使用 GitHub Actions 运行时自动提供的临时权限提交文件。仓库里只保存 workflow 配置、脚本、README、License 和公开日志。
+仓库不保存 GitHub Token、密码、Cookie、API key 或本地路径。公开日志只包含日期、时间和固定说明。
 
-公开日志示例：
+每个使用者都必须配置自己的 GitHub noreply 邮箱，不要复制本仓库维护者的邮箱设置。
 
-```csv
-date,timestamp,note
-2026-07-15,2026-07-15 17:47:57 CST,automated daily research check-in
-```
+### 文件说明
 
-## 文件说明
+- \`activity/daily-log.csv\`：每日 check-in 记录；
+- \`scripts/update-daily-log.sh\`：幂等日志更新脚本；
+- \`.github/workflows/daily-contribution.yml\`：定时工作流；
+- \`tests/test-update-daily-log.sh\`：本地 smoke test；
+- \`README.md\`：中英文说明；
+- \`LICENSE\`：MIT License。
 
-- `activity/daily-log.csv`：每日 check-in 记录。
-- `scripts/update-daily-log.sh`：幂等日志更新脚本。
-- `.github/workflows/daily-contribution.yml`：GitHub Actions 定时任务。
-- `tests/test-update-daily-log.sh`：本地 smoke test。
-- `README.md`：中英双语说明。
-- `LICENSE`：MIT License。
+### License
 
-## License
-
-MIT
+MIT License。
 
 ---
 
 ## English
 
-[简体中文](#daily-research-log) | English
+A transparent and lightweight GitHub Actions template for recording one auditable daily continuity check-in in a dedicated repository. It runs in the cloud and does not require your computer to stay on.
 
-A transparent, lightweight GitHub Actions template for keeping a daily check-in log. It records one small, auditable activity entry per day when you are away from your computer or do not have a normal project commit to make.
-
-This is not a fake-code generator. It separates a daily continuity record from real project development, so your actual repositories stay clean.
+This is not a fake-code generator, and it does not replace substantive software development. Real projects should keep their real Issues, Pull Requests, tests, and releases; this repository is only for a separate daily continuity record.
 
 ### What Problem It Solves
 
-GitHub contribution graphs do not always capture real work:
-
-- Some work happens in papers, notes, experiments, private tools, Stata, Overleaf, Notion, or local data workflows.
-- Some days you are traveling, in meetings, or away from your development machine.
-- Some projects should not receive meaningless commits just to keep a contribution graph active.
-- Some repositories have branch protection, PR review, or collaboration rules.
-
-This template keeps the daily continuity record in a dedicated log repository instead of mixing it into real project history.
+- Research, writing, experiments, data preparation, and local work do not always produce a GitHub commit every day.
+- Travel, meetings, and time away from a computer can prevent a manual commit.
+- Formal project repositories should not be polluted with meaningless activity commits.
+- A dedicated log repository separates continuity tracking from real development history.
 
 ### Who It Is For
 
-- Students and researchers tracking reading, experiments, or research routines.
-- Indie developers who want a clean GitHub activity baseline.
-- Data, Stata, R, and Python users whose daily work does not always become a commit.
-- Technical writers and content creators working across notes, scripts, and publishing platforms.
-- People who use multiple computers and do not want a local scheduled task.
+- Students, researchers, and PhD candidates;
+- Independent developers;
+- Stata, R, Python, and data-analysis users;
+- Technical writers and content creators;
+- People using multiple computers who do not want a local scheduler.
+
+### What It Is Not For
+
+- It should not claim that substantive software development happened every day.
+- It does not replace real project commits, Issues, Pull Requests, or releases.
+- It must not contain passwords, tokens, API keys, private notes, or research data.
 
 ### How It Works
 
-- GitHub Actions runs in the cloud.
-- The workflow checks in at 00:05 and 12:05 in the `Asia/Shanghai` timezone.
-- The script checks whether today's date already exists in `activity/daily-log.csv`.
-- If today's row is missing, it appends one check-in row.
-- If the row already exists, it skips.
-- The workflow commits the change to `main` with your configured GitHub noreply email.
+- GitHub Actions runs in the cloud, so your computer does not need to be on.
+- The workflow checks once at 00:05 and once at 12:05 in the Asia/Shanghai timezone.
+- The script checks whether today's date is already recorded.
+- If no record exists, it appends one row and commits it to main.
+- If a record already exists, it skips the commit.
+- GitHub Actions may be delayed by queue load, so these are target times rather than exact guarantees.
+- At most one real file change and one commit are created per day.
 
 ### Use This Template
 
-Use `Use this template` to create your own standalone repository. This is better than forking because GitHub contributions generally need commits on the default branch of a non-fork repository.
+Click **Use this template** to create an independent repository. Do not use a direct fork for normal use.
 
-Then add these repository variables under `Settings -> Secrets and variables -> Actions -> Variables`:
+After creating your repository, open:
+
+~~~text
+Settings -> Secrets and variables -> Actions -> Variables
+~~~
+
+Add:
 
 | Name | Example |
 | --- | --- |
-| `GIT_AUTHOR_NAME` | `your-github-username` |
-| `GIT_AUTHOR_EMAIL` | `12345678+your-github-username@users.noreply.github.com` |
+| \`GIT_AUTHOR_NAME\` | \`your-github-username\` |
+| \`GIT_AUTHOR_EMAIL\` | \`12345678+your-github-username@users.noreply.github.com\` |
 
-You can find your GitHub noreply email at `GitHub -> Settings -> Emails`.
+The email must be a noreply address associated with your own GitHub account:
 
-After setup, open the `Actions` tab and manually run `Daily Research Check-in` once to verify it works.
+~~~text
+GitHub -> Settings -> Emails
+~~~
 
-### Privacy
+Then:
 
-This repository does not store GitHub tokens, passwords, cookies, or API keys. The public log contains only date, timestamp, and a short note. It is a transparent continuity record, not a claim that substantive software development happened that day.
+1. Open Actions;
+2. Run Daily Research Check-in once as a test;
+3. Confirm that Actions has Read and write permissions;
+4. You do not need to run it manually every day; the scheduled workflow runs in the cloud.
+
+### Privacy and Security
+
+The repository does not store GitHub tokens, passwords, cookies, API keys, or local paths. The public log contains only a date, timestamp, and fixed note.
+
+Each user must configure their own GitHub noreply email. Do not copy the maintainer's email settings.
+
+### File Overview
+
+- \`activity/daily-log.csv\`: daily check-in records;
+- \`scripts/update-daily-log.sh\`: idempotent log update script;
+- \`.github/workflows/daily-contribution.yml\`: scheduled workflow;
+- \`tests/test-update-daily-log.sh\`: local smoke test;
+- \`README.md\`: bilingual documentation;
+- \`LICENSE\`: MIT License.
 
 ### License
 
-MIT
-
-### 运行提示
-
-定时任务在 GitHub 云端运行，不需要每天手动启动。GitHub Actions 可能因队列负载延迟几分钟，因此 00:05 和 12:05 是目标时间，不是精确保证时间。
-
-### Runtime note
-
-The scheduled workflow runs in GitHub's cloud; you do not need to start it manually every day. GitHub Actions may be delayed by queue load, so 00:05 and 12:05 are target times rather than exact guarantees.
+MIT License.
