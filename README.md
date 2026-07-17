@@ -1,4 +1,4 @@
-# Daily Research Log
+# 每日研究日志
 
 [简体中文](#简体中文) | [English](#english)
 
