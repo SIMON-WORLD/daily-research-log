@@ -43,9 +43,9 @@
 
 ### 使用模板
 
-推荐点击仓库中的 **Use this template**，创建一个独立仓库，不要直接 fork。
+如果要使用本项目，请点击仓库页面的 **Fork**，把仓库复制到你自己的账号下。Fork 后请按照下面的步骤配置自己的账号信息。不要直接在原仓库中修改。
 
-创建后进入：
+Fork 完成后进入你自己的仓库，然后打开：
 
 ~~~text
 Settings -> Secrets and variables -> Actions -> Variables
@@ -70,6 +70,10 @@ GitHub -> Settings -> Emails
 2. 手动运行一次 Daily Research Check-in 进行测试；
 3. 确认仓库的 Actions 具有 Read and write permissions；
 4. 之后无需每天手动运行，定时任务会在云端执行。
+
+### Fork 使用说明
+
+Fork 不会复制你的仓库变量值。每个使用者都必须在自己的 Fork 中重新设置 GIT_AUTHOR_NAME 和 GIT_AUTHOR_EMAIL，并确认 Actions 具有 Read and write permissions。Fork 仓库中的自动提交归属于使用者自己的 GitHub 账号。
 
 ### 隐私与安全
 
@@ -131,9 +135,9 @@ This is not a fake-code generator, and it does not replace substantive software 
 
 ### Use This Template
 
-Click **Use this template** to create an independent repository. Do not use a direct fork for normal use.
+Click **Fork** to copy this repository to your own GitHub account. Configure your own account variables in the forked repository. Do not modify the upstream repository directly.
 
-After creating your repository, open:
+After the fork is created, open your own repository and go to:
 
 ~~~text
 Settings -> Secrets and variables -> Actions -> Variables
@@ -158,6 +162,10 @@ Then:
 2. Run Daily Research Check-in once as a test;
 3. Confirm that Actions has Read and write permissions;
 4. You do not need to run it manually every day; the scheduled workflow runs in the cloud.
+
+### Fork Usage
+
+Forking does not copy repository variable values. Each user must configure GIT_AUTHOR_NAME and GIT_AUTHOR_EMAIL in their own fork and confirm that Actions has Read and write permissions. Automated commits in the fork belong to the user own GitHub account.
 
 ### Privacy and Security
 
